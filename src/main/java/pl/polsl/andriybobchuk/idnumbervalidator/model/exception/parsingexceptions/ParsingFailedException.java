@@ -5,7 +5,8 @@
 package pl.polsl.andriybobchuk.idnumbervalidator.model.exception.parsingexceptions;
 
 /**
- *
+ * Indicates the general problem occuring while parsing.
+ * 
  * @author Andriy Bobchuk
  */
 public class ParsingFailedException extends Exception {

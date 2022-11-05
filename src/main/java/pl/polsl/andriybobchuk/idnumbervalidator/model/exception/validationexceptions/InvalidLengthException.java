@@ -5,7 +5,8 @@
 package pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions;
 
 /**
- *
+ * Indicates that user provided wrong token
+ * 
  * @author Andriy Bobchuk
  */
 public class InvalidLengthException extends ValidationFailedException {

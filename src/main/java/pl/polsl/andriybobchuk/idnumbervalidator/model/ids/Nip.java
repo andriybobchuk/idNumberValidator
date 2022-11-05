@@ -14,8 +14,8 @@ import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.parsingexception
  */
 public class Nip implements Id{
     
-    private String identifier;
-    private String taxOfficePrefix;
+    private final String identifier;
+    private final String taxOfficePrefix;
 
     /**
      * Constructor, calls parse function to set all its properties and prepare

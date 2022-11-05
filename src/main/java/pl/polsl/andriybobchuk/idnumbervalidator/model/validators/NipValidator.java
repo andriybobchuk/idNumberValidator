@@ -4,6 +4,7 @@
  */
 package pl.polsl.andriybobchuk.idnumbervalidator.model.validators;
 
+import pl.polsl.andriybobchuk.idnumbervalidator.model.BaseBusinessLogic;
 import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions.InvalidLengthException;
 import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions.NonNumericTokenException;
 import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions.ValidationFailedException;
@@ -16,7 +17,7 @@ import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexcept
  *
  * @author Andriy Bobchuk
  */
-public class NipValidator implements Validator {
+public class NipValidator extends BaseBusinessLogic implements Validator {
 
     /**
      * Runs all the necessary functions to validate the NIP. Each individual
@@ -29,65 +30,8 @@ public class NipValidator implements Validator {
     public void validate(String idToken) throws ValidationFailedException {
 
         String dashlessToken = idToken.replaceAll("\\-", "");
-        checkLength(dashlessToken);
+        checkLength(dashlessToken, 10);
         checkIfNumeric(dashlessToken);
-        calculateWeightedSum(dashlessToken);
-    }
-
-    /**
-     * Checks if the ID entered by the user is or the proper length. If no -
-     * throws an InvalidLengthException.
-     *
-     * @param idToken plain text id token taken directly from user input
-     * @throws InvalidLengthException
-     */
-    private void checkLength(String idToken) throws InvalidLengthException {
-
-        int NIP_LENGTH = 10;
-
-        if (idToken.length() != NIP_LENGTH) {
-            throw new InvalidLengthException("Token is of wrong length");
-        }
-    }
-
-    /**
-     * Checks if the ID entered by the user is fully numeric. If no - throws a
-     * NonNumericTokenException.
-     *
-     * @param idToken plain text id token taken directly from user input
-     * @throws NonNumericTokenException
-     */
-    private void checkIfNumeric(String idToken) throws NonNumericTokenException {
-
-        if (!idToken.chars().allMatch(Character::isDigit)) {
-            throw new NonNumericTokenException("Token is not numeric");
-        }
-    }
-
-    /**
-     * Using a formula calculates if the ID provided by the user is a valid NIP.
-     * If no, throws ValidationFailedException.
-     * <p>
-     * Algorithm(formula) taken from:
-     * <a href="https://aleo.com/pl/funkcje/baza-firm/wyszukiwarka-nip">link</a>
-     *
-     *
-     * @param idToken plain text id token taken directly from user input.
-     * @throws ValidationFailedException
-     */
-    private void calculateWeightedSum(String idToken) throws ValidationFailedException {
-
-        int result = 0;
-        int[] weights = new int[]{6, 5, 7, 2, 3, 4, 5, 6, 7};
-        for (int i = 0; i <= 8; i++) {
-            result += weights[i] * Integer.parseInt(
-                    String.valueOf(idToken.charAt(i))
-            );
-        }
-        result %= 11;
-
-        if (result == 10) {
-            throw new ValidationFailedException("Failed to calculate weighted sum");
-        }
+        checkWeightedSum(dashlessToken, 11, 6, 5, 7, 2, 3, 4, 5, 6, 7);
     }
 }

@@ -5,7 +5,8 @@
 package pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions;
 
 /**
- *
+ * Indicates the general failure of validation, has many subclasses
+ * 
  * @author Andriy Bobchuk
  */
 public class ValidationFailedException extends Exception { 

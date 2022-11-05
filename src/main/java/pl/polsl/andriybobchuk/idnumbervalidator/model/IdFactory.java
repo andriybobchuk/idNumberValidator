@@ -8,7 +8,8 @@ import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.parsingexception
 import pl.polsl.andriybobchuk.idnumbervalidator.model.ids.*;
 
 /**
- *
+ * Provides an ID depending on the user input
+ * 
  * @author Andriy Bobchuk
  */
 public class IdFactory {
@@ -18,7 +19,6 @@ public class IdFactory {
         if (idType == null) {
             return null;
         }
-        // TODO: Add constants file
         if (idType.equalsIgnoreCase("PESEL")) {
             return new Pesel(identifier);
         } else if (idType.equalsIgnoreCase("NIP")) {

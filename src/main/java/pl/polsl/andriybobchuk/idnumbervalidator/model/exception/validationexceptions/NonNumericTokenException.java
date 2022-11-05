@@ -5,7 +5,7 @@
 package pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions;
 
 /**
- *
+ * Indicates that token provided by the user does not fully consist of numbers
  * @author Andriy Bobchuk
  */
 public class NonNumericTokenException extends ValidationFailedException {

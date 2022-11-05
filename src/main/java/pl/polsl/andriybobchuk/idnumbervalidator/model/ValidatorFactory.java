@@ -8,7 +8,8 @@ import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexcept
 import pl.polsl.andriybobchuk.idnumbervalidator.model.validators.*;
 
 /**
- *
+ * Provides a validator depending on the user input
+ * 
  * @author Andriy Bobchuk
  */
 public class ValidatorFactory {
@@ -17,7 +18,6 @@ public class ValidatorFactory {
       if(idType == null){
          return null;
       }		
-      // TODO: Add constants file
       if(idType.equalsIgnoreCase("PESEL")){
          return new PeselValidator(); 
       } else if(idType.equalsIgnoreCase("NIP")){

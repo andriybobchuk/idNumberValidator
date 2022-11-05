@@ -4,9 +4,8 @@
  */
 package pl.polsl.andriybobchuk.idnumbervalidator.model.validators;
 
+import pl.polsl.andriybobchuk.idnumbervalidator.model.BaseBusinessLogic;
 import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions.ValidationFailedException;
-import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions.InvalidLengthException;
-import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions.NonNumericTokenException;
 
 /**
  * Implementation of a Validator interface designed to determine whether 
@@ -16,7 +15,7 @@ import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexcept
  *
  * @author Andriy Bobchuk
  */
-public class PeselValidator implements Validator {
+public class PeselValidator extends BaseBusinessLogic implements Validator {
 
     /**
      * Runs all the necessary functions to validate the PESEL. Each individual 
@@ -27,65 +26,8 @@ public class PeselValidator implements Validator {
      */
     @Override
     public void validate(String idToken) throws ValidationFailedException {
-
-        checkLength(idToken);
+        checkLength(idToken, 11);
         checkIfNumeric(idToken);
-        calculateWeightedSum(idToken);
-    }
-    
-    /**
-     * Checks if the ID entered by the user is or the proper length. If no - 
-     * throws an InvalidLengthException. 
-     * 
-     * @param idToken plain text id token taken directly from user input
-     * @throws InvalidLengthException
-     */
-    private void checkLength(String idToken) throws InvalidLengthException {
-
-        int PESEL_LENGTH = 11;
-
-        if (idToken.length() != PESEL_LENGTH) {
-            throw new InvalidLengthException("Token is of wrong length");
-        }
-    }
-
-    /**
-     * Checks if the ID entered by the user is fully numeric. If no -
-     * throws a NonNumericTokenException.
-     * 
-     * @param idToken plain text id token taken directly from user input
-     * @throws NonNumericTokenException 
-     */
-    private void checkIfNumeric(String idToken) throws NonNumericTokenException {
-
-        if (!idToken.chars().allMatch(Character::isDigit)) {
-            throw new NonNumericTokenException("Token is not numeric");
-        }
-    }
-
-    /**
-     * Using a formula calculates if the ID provided by the user is a valid 
-     * PESEL. If no, throws ValidationFailedException.
-     * <p>
-     * Formula: 
-     * (9*y1 + 7*y2) + (3*m1 + m2) + (9*d1 + 7*d2) + (3*s1 + s2 + 9*s3 + 7*s4) % 10
-     * 
-     * @param idToken plain text id token taken directly from user input.
-     * @throws ValidationFailedException 
-     */
-    private void calculateWeightedSum(String idToken) throws ValidationFailedException {
-
-        int result = 0;
-        int[] weights = new int[]{9, 7, 3, 1, 9, 7, 3, 1, 9, 7};
-        for (int i = 0; i <= 9; i++) {
-            result += weights[i] * Integer.parseInt(
-                    String.valueOf(idToken.charAt(i))
-            );
-        }
-        result %= 10;
-
-        if (result != Integer.parseInt(String.valueOf(idToken.charAt(10)))) {
-            throw new ValidationFailedException("Failed to calculate weighted sum");
-        }
+        checkWeightedSum(idToken, 10, 9, 7, 3, 1, 9, 7, 3, 1, 9, 7);
     }
 }

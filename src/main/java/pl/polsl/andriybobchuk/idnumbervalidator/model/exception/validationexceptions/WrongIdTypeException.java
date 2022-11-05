@@ -4,10 +4,10 @@
  */
 package pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions;
 
-import pl.polsl.andriybobchuk.idnumbervalidator.model.exception.validationexceptions.ValidationFailedException;
 
 /**
- *
+ * Indicates wrong ID type provided by the user
+ * 
  * @author Andriy Bobchuk
  */
 public class WrongIdTypeException extends ValidationFailedException {
